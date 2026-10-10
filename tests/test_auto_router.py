@@ -67,8 +67,8 @@ class TestFailover(unittest.TestCase):
         r = AutoRouter(ps, policy="cheapest")
         r.chat([{"role": "user", "content": "hi"}])  # smart serves
         order = [p.name for p in r.pick()]  # two at -inf: must not raise
-        self.assertEqual(order[-1], "cheap")
-        self.assertEqual(order[-2], "fast")
+        self.assertEqual(order[0], "smart")
+        self.assertEqual(set(order[1:]), {"cheap", "fast"})
 
     def test_repeated_failures_sink_provider(self):
         ps = fleet()
